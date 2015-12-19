@@ -17,8 +17,7 @@ Feature: "Patch Panel" example
       link 'patch_panel', 'host2'
       link 'patch_panel', 'host3'
       """
-    Given I successfully run `trema run ../../lib/patch_panel.rb -c patch_panel.conf -d`
-    And I run `sleep 2`
+    And I trema run "lib/patch_panel.rb" with the configuration "patch_panel.conf"
 
   @sudo
   Scenario: create a patch (port #1 #2)
