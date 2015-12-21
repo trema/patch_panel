@@ -22,8 +22,7 @@ Feature: "Patch Panel" example
   @sudo
   Scenario: create a patch (port #1 #2)
     When I successfully run `patch_panel create 0xabc 1 2`
-    Then a file named "PatchPanel.log" should exist
-    When I run `trema send_packets --source host1 --dest host2`
+    And I run `trema send_packets --source host1 --dest host2`
     And I run `trema send_packets --source host1 --dest host3`
     And I run `trema send_packets --source host2 --dest host1`
     And I run `trema send_packets --source host2 --dest host3`
@@ -43,23 +42,10 @@ Feature: "Patch Panel" example
       | 192.168.0.2 |        0 |
 
   @sudo
-  Scenario: create a patch then delete the patch (port #1 #2)
+  Scenario: create a patch (port #1 and #2) then delete the patch
     Given I successfully run `patch_panel create 0xabc 1 2`
     When I successfully run `patch_panel delete 0xabc 1 2`
-    When I run `trema send_packets --source host1 --dest host2`
-    And I run `trema send_packets --source host2 --dest host1`
-    Then the number of packets received by "host1" should be:
-      |      source | #packets |
-      | 192.168.0.2 |        0 |
-    And the number of packets received by "host2" should be:
-      |      source | #packets |
-      | 192.168.0.1 |        0 |
-
-  @sudo
-  Scenario: create a patch (#1 #2) then delete the patch (#2 #1)
-    Given I successfully run `patch_panel create 0xabc 1 2`
-    When I successfully run `patch_panel delete 0xabc 2 1`
-    When I run `trema send_packets --source host1 --dest host2`
+    And I run `trema send_packets --source host1 --dest host2`
     And I run `trema send_packets --source host2 --dest host1`
     Then the number of packets received by "host1" should be:
       |      source | #packets |
